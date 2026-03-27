@@ -84,6 +84,10 @@ const Boxoffice = (() => {
         try {
             const data = await API.getDailyBoxOffice(toDateParam(dateInput.value));
             const result = data.boxOfficeResult;
+            if (!result) {
+                showError(resultEl, '오류: API 응답이 올바르지 않습니다. API 키를 확인해주세요.');
+                return;
+            }
             const items = result.dailyBoxOfficeList || [];
 
             rangeEl.textContent = `조회 기간: ${result.showRange}`;
@@ -117,6 +121,10 @@ const Boxoffice = (() => {
         try {
             const data = await API.getWeeklyBoxOffice(toDateParam(dateInput.value), weekGb);
             const result = data.boxOfficeResult;
+            if (!result) {
+                showError(resultEl, '오류: API 응답이 올바르지 않습니다. API 키를 확인해주세요.');
+                return;
+            }
             const items = result.weeklyBoxOfficeList || [];
 
             rangeEl.textContent = `조회 기간: ${result.showRange}`;

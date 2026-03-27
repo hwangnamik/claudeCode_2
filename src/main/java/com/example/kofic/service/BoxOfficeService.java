@@ -19,18 +19,26 @@ public class BoxOfficeService {
     }
 
     public DailyBoxOfficeResponse getDailyBoxOffice(String targetDt) {
-        return restClient.get()
+        DailyBoxOfficeResponse response = restClient.get()
                 .uri("/boxoffice/searchDailyBoxOfficeList.json?key={key}&targetDt={dt}",
                         apiKey, targetDt)
                 .retrieve()
                 .body(DailyBoxOfficeResponse.class);
+        if (response == null || response.getBoxOfficeResult() == null) {
+            throw new IllegalStateException("KOBIS API 응답이 올바르지 않습니다. API 키를 확인해주세요.");
+        }
+        return response;
     }
 
     public WeeklyBoxOfficeResponse getWeeklyBoxOffice(String targetDt, String weekGb) {
-        return restClient.get()
+        WeeklyBoxOfficeResponse response = restClient.get()
                 .uri("/boxoffice/searchWeeklyBoxOfficeList.json?key={key}&targetDt={dt}&weekGb={gb}",
                         apiKey, targetDt, weekGb)
                 .retrieve()
                 .body(WeeklyBoxOfficeResponse.class);
+        if (response == null || response.getBoxOfficeResult() == null) {
+            throw new IllegalStateException("KOBIS API 응답이 올바르지 않습니다. API 키를 확인해주세요.");
+        }
+        return response;
     }
 }
